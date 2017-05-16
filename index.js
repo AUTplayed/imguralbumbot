@@ -14,6 +14,8 @@ var reddit = new Snoo({
     }
 });
 
+
+
 reddit('/api/v1/me').get().then(function(result) {
   console.log(result); 
 });
