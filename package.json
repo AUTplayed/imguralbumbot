@@ -12,6 +12,6 @@
     "dotenv": "^4.0.0",
     "reddit-stream": "^1.2.0",
     "request": "^2.81.0",
-    "snoocore": "^3.3.1"
+    "snoowrap": "^1.14.0"
   }
 }

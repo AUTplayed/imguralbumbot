@@ -15,30 +15,36 @@ rstream.on('post', function (post) {
     var arr = [];
     arr.push({ url: post.url });
     checkAlbum(arr, function (directs) {
-        parse(post,directs);
-        emitter.emit('post',post);
+        if(parse(post,directs)){   
+            emitter.emit('post',post);
+        }
     });
 });
 
 rstream.on('comment', function (comment) {
     //console.log("comment", comment.body);
     var urls = comment.body_html.match(regex);
-    for (var i = 0; i < urls.length; i++) {
-        urls[i] = urls[i].split('"')[1];
-        urls[i] = { url: urls[i] };
+    if(urls){
+        for (var i = 0; i < urls.length; i++) {
+            urls[i] = urls[i].split('"')[1];
+            urls[i] = { url: urls[i] };
+        }
+        checkAlbum(urls, function (directs) {
+            if(parse(comment,directs)){
+                emitter.emit('comment',comment);
+            }
+        });
     }
-    checkAlbum(urls, function (directs) {
-        parse(comment,directs);
-        emitter.emit('comment',comment);
-    });
 });
 
 function parse(poc, directs) {
     if (directs.length !== 0) {
         poc.direct = directs;
-        console.log("single img album", poc.direct);
+        //console.log("single img album");
+        return true;
     } else {
-        console.log("viable album");
+        //console.log("viable album");
+        return false;
     }
 }
 
@@ -47,7 +53,7 @@ rstream.on('error', function (err) {
 });
 
 function checkAlbum(urls, callback) {
-    console.log(urls);
+    //console.log(urls);
     checkSingleRec(urls, 0, callback);
 }
 
@@ -73,7 +79,13 @@ function callapi(url, callback) {
             "authorization": "Client-ID " + apikey
         }
     }, function (err, res, body) {
+        try{
         body = JSON.parse(body);
+        }catch(err){
+            fs.writeFileSync("error"+Date.now()+".html");
+            console.log("error response");
+            return;
+        }
         callback(body);
     });
 }
