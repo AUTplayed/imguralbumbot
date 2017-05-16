@@ -28,7 +28,6 @@ cstream.start();
 cstream.on('new',function(comments){
     /*ccount+=comments.length;
     console.log(ccount);*/
-    fs.writeFileSync("example3.json",JSON.stringify(comments[0].data));
     comments.forEach(function(comment){
         if(comment.data.body_html.includes("://imgur.com/a/")){
             emitter.emit('comment',comment.data);
