@@ -1,5 +1,5 @@
 const header = "^(Hi, I'm a bot for linking direct images of albums with only 1 image)";
-const footer = "\n\n^[Source](https://github.com/AUTplayed/imguralbumbot) ^| ^[Why?](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md) ^| ^[Creator](https://www.reddit.com/user/AUTplayed/)";
+const footer = "\n\n^[Source](https://github.com/AUTplayed/imguralbumbot) ^| ^[Why?](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md) ^| ^[Creator](https://np.reddit.com/user/AUTplayed/)";
 
 module.exports = build;
 
