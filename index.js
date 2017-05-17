@@ -27,7 +27,7 @@ imgur.on('error', function (err) {
 var msgbuilder = require('./messagebuilder.js');
 imgur.on('post', function (post) {
     if (plog.indexOf(post.id) == -1) {
-        console.log("bs post");
+        //console.log("bs post");
         var msg = msgbuilder(post);
         var failed = false;
         reddit.getSubmission(msg.location).reply(msg.text).catch(function (err) {
@@ -48,7 +48,7 @@ imgur.on('post', function (post) {
 
 imgur.on('comment', function (comment) {
     if (clog.indexOf(comment.id) == -1) {
-        console.log("bs comment");
+        //console.log("bs comment");
         var msg = msgbuilder(comment);
         var failed = false;
         reddit.getComment(msg.location).reply(msg.text).catch(function (err) {

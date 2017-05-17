@@ -82,8 +82,8 @@ function callapi(url, callback) {
         try{
         body = JSON.parse(body);
         }catch(err){
-            fs.writeFileSync("error"+Date.now()+".html");
-            console.log("error response");
+            //fs.writeFileSync("error"+Date.now()+".html");
+            console.log("imgur request err:",body);
             return;
         }
         callback(body);
