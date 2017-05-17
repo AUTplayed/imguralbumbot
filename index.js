@@ -32,7 +32,7 @@ imgur.on('post', function (post) {
         var failed = false;
         reddit.getSubmission(msg.location).reply(msg.text).catch(function (err) {
             failed = true;
-            if (!err.message.startsWith("RATELIMIT")) {
+            if (!err.message.startsWith("RATELIMIT")&&!err.message.startsWith("Forbidden")) {
                 console.log(err);
             }
         }).then(() => {
