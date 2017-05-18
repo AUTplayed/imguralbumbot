@@ -29,7 +29,7 @@ imgur.on('error', function (err) {
 
 var msgbuilder = require('./messagebuilder.js');
 imgur.on('post', function (post) {
-    if (plog.indexOf(post.id) == -1 && ignore.indexOf(post.author.name) == -1) {
+    if (plog.indexOf(post.id) == -1 && ignore.indexOf(post.author) == -1) {
         //console.log("bs post");
         var msg = msgbuilder(post);
         var failed = false;
@@ -51,7 +51,7 @@ imgur.on('post', function (post) {
 });
 
 imgur.on('comment', function (comment) {
-    if (clog.indexOf(comment.id) == -1 && ignore.indexOf(comment.author.name) == -1) {
+    if (clog.indexOf(comment.id) == -1 && ignore.indexOf(comment.author) == -1) {
         //console.log("bs comment");
         var msg = msgbuilder(comment);
         var failed = false;
