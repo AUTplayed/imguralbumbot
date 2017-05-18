@@ -36,7 +36,7 @@ imgur.on('post', function (post) {
         reddit.getSubmission(msg.location).reply(msg.text).catch(function (err) {
             failed = true;
             if (!err.message.startsWith("RATELIMIT") && !err.message.startsWith("Forbidden")) {
-                console.log(err);
+                //console.log(err);
             }
         }).then((repl) => {
             if (!failed) {
@@ -87,7 +87,7 @@ setInterval(function () {
                         console.log("deleted "+item.author);
                     } else {
                         if (todelete.parent_id.startsWith("t1_")) {
-                            reddit.getComment(item.parent_id.substring(3, item.parent_id.length)).fetch().then((co) => {
+                            reddit.getComment(todelete.parent_id.substring(3, todelete.parent_id.length)).fetch().then((co) => {
                                 if (co.author == item.author) {
                                     todelete.delete();
                                     console.log("deleted "+co.id);;
