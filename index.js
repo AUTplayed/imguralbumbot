@@ -4,8 +4,9 @@ var imgur = require('./imgur.js');
 var fs = require("fs");
 
 var env = process.env;
-var clog = [], plog = [];
-
+var clog = [], plog = [], ignore = [];
+if(fs.existsSync("ignore"))
+    ignore = [].concat(fs.readFileSync("ignore","utf-8").split("\n"));
 if (fs.existsSync("clog"))
     clog = [].concat(fs.readFileSync("clog", "utf-8").split("\n"));
 if (fs.existsSync("plog"))
@@ -26,7 +27,7 @@ imgur.on('error', function (err) {
 
 var msgbuilder = require('./messagebuilder.js');
 imgur.on('post', function (post) {
-    if (plog.indexOf(post.id) == -1) {
+    if (plog.indexOf(post.id) == -1 && ignore.indexOf(post.author) == -1) {
         //console.log("bs post");
         var msg = msgbuilder(post);
         var failed = false;
@@ -47,7 +48,7 @@ imgur.on('post', function (post) {
 });
 
 imgur.on('comment', function (comment) {
-    if (clog.indexOf(comment.id) == -1) {
+    if (clog.indexOf(comment.id) == -1 && ignore.indexOf(post.author) == -1) {
         //console.log("bs comment");
         var msg = msgbuilder(comment);
         var failed = false;
