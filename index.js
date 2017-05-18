@@ -81,12 +81,12 @@ setInterval(function () {
                 item.markAsRead();
             } else if (item.body.startsWith("delet this ")) {
                 item.markAsRead();
-                reddit.getComment(item.body.split("delet this ")[1]).then((todelete) => {
+                reddit.getComment(item.body.split("delet this ")[1]).fetch().then((todelete) => {
                     if (todelete.link_author == item.author) {
                         todelete.delete();
                     } else {
                         if (todelete.parent_id.startsWith("t1_")) {
-                            reddit.getComment(item.parent_id.substring(3, item.parent_id.length)).then((co) => {
+                            reddit.getComment(item.parent_id.substring(3, item.parent_id.length)).fetch().then((co) => {
                                 if (co.author == item.author) {
                                     todelete.delete();
                                 }
