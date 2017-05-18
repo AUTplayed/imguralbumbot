@@ -76,7 +76,7 @@ setInterval(function () {
     reddit.getUnreadMessages().then((list) => {
         list.forEach(function (item) {
             if (item.body.startsWith("ignoreme")) {
-                fs.appendFile("ignore", item.author.name, function () { });
+                fs.appendFile("ignore", item.author.name+"\n", function () { });
                 ignore.push(item.author.name);
                 item.markAsRead();
             } else if (item.body.startsWith("delet this ")) {
