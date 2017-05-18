@@ -29,7 +29,7 @@ imgur.on('error', function (err) {
 
 var msgbuilder = require('./messagebuilder.js');
 imgur.on('post', function (post) {
-    if (plog.indexOf(post.id) == -1 && ignore.indexOf(post.author) == -1) {
+    if (plog.indexOf(post.id) == -1 && ignore.indexOf(post.author.name) == -1) {
         //console.log("bs post");
         var msg = msgbuilder(post);
         var failed = false;
@@ -51,7 +51,7 @@ imgur.on('post', function (post) {
 });
 
 imgur.on('comment', function (comment) {
-    if (clog.indexOf(comment.id) == -1 && ignore.indexOf(comment.author) == -1) {
+    if (clog.indexOf(comment.id) == -1 && ignore.indexOf(comment.author.name) == -1) {
         //console.log("bs comment");
         var msg = msgbuilder(comment);
         var failed = false;
@@ -76,25 +76,27 @@ setInterval(function () {
     reddit.getUnreadMessages().then((list) => {
         list.forEach(function (item) {
             if (item.body.startsWith("ignoreme")) {
-                fs.appendFile("ignore", item.author, function () { });
-                ignore.push(item.author);
+                fs.appendFile("ignore", item.author.name, function () { });
+                ignore.push(item.author.name);
                 item.markAsRead();
             } else if (item.body.startsWith("delet this ")) {
                 item.markAsRead();
                 reddit.getComment(item.body.split("delet this ")[1]).fetch().then((todelete) => {
-                    if (todelete.link_author == item.author) {
-                        todelete.delete();
-                        console.log("deleted "+item.author);
-                    } else {
-                        if (todelete.parent_id.startsWith("t1_")) {
-                            reddit.getComment(todelete.parent_id.substring(3, todelete.parent_id.length)).fetch().then((co) => {
-                                if (co.author == item.author) {
-                                    todelete.delete();
-                                    console.log("deleted "+co.id);;
-                                }
-                            });
+                    reddit.getSubmission(todelete.link_id.substring(3, todelete.link_id)).fetch().then((parentlink) => {
+                        if (parentlink.author.name == item.author.name) {
+                            todelete.delete();
+                            console.log("deleted " + item.author.name);
+                        } else {
+                            if (todelete.parent_id.startsWith("t1_")) {
+                                reddit.getComment(todelete.parent_id.substring(3, todelete.parent_id.length)).fetch().then((co) => {
+                                    if (co.author.name == item.author.name) {
+                                        todelete.delete();
+                                        console.log("deleted " + co.id);
+                                    }
+                                });
+                            }
                         }
-                    }
+                    });
                 });
 
             }
