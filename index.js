@@ -58,7 +58,7 @@ imgur.on('comment', function (comment) {
         reddit.getComment(msg.location).reply(msg.text).catch(function (err) {
             failed = true;
             if (!err.message.startsWith("RATELIMIT")) {
-                console.log(err);
+                //console.log(err);
             }
         }).then((repl) => {
             if (!failed) {
@@ -84,11 +84,13 @@ setInterval(function () {
                 reddit.getComment(item.body.split("delet this ")[1]).fetch().then((todelete) => {
                     if (todelete.link_author == item.author) {
                         todelete.delete();
+                        console.log("deleted "+item.author);
                     } else {
                         if (todelete.parent_id.startsWith("t1_")) {
                             reddit.getComment(item.parent_id.substring(3, item.parent_id.length)).fetch().then((co) => {
                                 if (co.author == item.author) {
                                     todelete.delete();
+                                    console.log("deleted "+co.id);;
                                 }
                             });
                         }
