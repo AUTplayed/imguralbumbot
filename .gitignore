@@ -67,5 +67,5 @@ typings/
 example*.json
 error*.html
 *log
-
+ignore
 .vscode/

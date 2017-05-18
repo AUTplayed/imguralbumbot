@@ -3,6 +3,8 @@ require("dotenv").config();
 var imgur = require('./imgur.js');
 var fs = require("fs");
 
+var dfooter = "^| ^[delet this](http://np.reddit.com/message/compose/?to=imguralbumbot&subject=delet%20this&message=delet%20this%20";
+var ends = ") ";
 var env = process.env;
 var clog = [], plog = [], ignore = [];
 if(fs.existsSync("ignore"))
@@ -36,10 +38,11 @@ imgur.on('post', function (post) {
             if (!err.message.startsWith("RATELIMIT")&&!err.message.startsWith("Forbidden")) {
                 console.log(err);
             }
-        }).then(() => {
+        }).then((repl) => {
             if (!failed) {
                 plog.push(msg.location);
                 fs.appendFile("plog", msg.location + "\n", function () { });
+                repl.edit(repl.body+dfooter+repl.id+ends);
             }
         });
     } else {
@@ -57,16 +60,44 @@ imgur.on('comment', function (comment) {
             if (!err.message.startsWith("RATELIMIT")) {
                 console.log(err);
             }
-        }).then(() => {
+        }).then((repl) => {
             if (!failed) {
                 clog.push(msg.location);
                 fs.appendFile("clog", msg.location + "\n", function () { });
+                repl.edit(repl.body+dfooter+repl.id+ends);
             }
         });
     } else {
         console.log("duplicate comment");
     }
 });
+
+setInterval(function(){
+    reddit.getUnreadMessages().then((list)=>{
+        list.forEach(function(item){
+            if(item.body.startsWith("ignoreme")){
+                fs.appendFile("ignore",item.author,function(){});
+                ignore.push(item.author);
+                item.markAsRead();
+            }else if(item.body.startsWith("delet this ")){
+                item.markAsRead();
+                if(item.parent_id.startsWith("t1_")){
+                    reddit.getComment(item.parent_id.substring(3,item.parent_id.length)).then((co)=>{
+                        if(co.author == item.author){
+                            reddit.getComment(item.body.split("delet this ")[1]).delete();
+                        }
+                    });
+                }else if(item.parent_id.startsWith("t3_")){
+                    reddit.getSubmission(item.parent_id.substring(3,item.parent_id.length)).then((su)=>{
+                        if(su.author == item.author){
+                            reddit.getComment(item.body.split("delet this ")[1]).delete();
+                        }
+                    });
+                }
+            }
+        });
+    });
+},1000*60);
 
 
 //console.log(reddit.getSubmission("6bhhfr"));
