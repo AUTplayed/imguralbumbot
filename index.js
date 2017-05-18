@@ -7,8 +7,8 @@ var dfooter = "^| ^[deletthis](http://np.reddit.com/message/compose/?to=imguralb
 var ends = ") ";
 var env = process.env;
 var clog = [], plog = [], ignore = [];
-if(fs.existsSync("ignore"))
-    ignore = [].concat(fs.readFileSync("ignore","utf-8").split("\n"));
+if (fs.existsSync("ignore"))
+    ignore = [].concat(fs.readFileSync("ignore", "utf-8").split("\n"));
 if (fs.existsSync("clog"))
     clog = [].concat(fs.readFileSync("clog", "utf-8").split("\n"));
 if (fs.existsSync("plog"))
@@ -35,14 +35,14 @@ imgur.on('post', function (post) {
         var failed = false;
         reddit.getSubmission(msg.location).reply(msg.text).catch(function (err) {
             failed = true;
-            if (!err.message.startsWith("RATELIMIT")&&!err.message.startsWith("Forbidden")) {
+            if (!err.message.startsWith("RATELIMIT") && !err.message.startsWith("Forbidden")) {
                 console.log(err);
             }
         }).then((repl) => {
             if (!failed) {
                 plog.push(msg.location);
                 fs.appendFile("plog", msg.location + "\n", function () { });
-                repl.edit(repl.body+dfooter+repl.id+ends);
+                repl.edit(repl.body + dfooter + repl.id + ends);
             }
         });
     } else {
@@ -64,7 +64,7 @@ imgur.on('comment', function (comment) {
             if (!failed) {
                 clog.push(msg.location);
                 fs.appendFile("clog", msg.location + "\n", function () { });
-                repl.edit(repl.body+dfooter+repl.id+ends);
+                repl.edit(repl.body + dfooter + repl.id + ends);
             }
         });
     } else {
@@ -72,32 +72,33 @@ imgur.on('comment', function (comment) {
     }
 });
 
-setInterval(function(){
-    reddit.getUnreadMessages().then((list)=>{
-        list.forEach(function(item){
-            if(item.body.startsWith("ignoreme")){
-                fs.appendFile("ignore",item.author,function(){});
+setInterval(function () {
+    reddit.getUnreadMessages().then((list) => {
+        list.forEach(function (item) {
+            if (item.body.startsWith("ignoreme")) {
+                fs.appendFile("ignore", item.author, function () { });
                 ignore.push(item.author);
                 item.markAsRead();
-            }else if(item.body.startsWith("delet this ")){
+            } else if (item.body.startsWith("delet this ")) {
                 item.markAsRead();
-                if(item.parent_id.startsWith("t1_")){
-                    reddit.getComment(item.parent_id.substring(3,item.parent_id.length)).then((co)=>{
-                        if(co.author == item.author){
-                            reddit.getComment(item.body.split("delet this ")[1]).delete();
+                reddit.getComment(item.body.split("delet this ")[1]).then((todelete) => {
+                    if (todelete.link_author == item.author) {
+                        todelete.delete();
+                    } else {
+                        if (todelete.parent_id.startsWith("t1_")) {
+                            reddit.getComment(item.parent_id.substring(3, item.parent_id.length)).then((co) => {
+                                if (co.author == item.author) {
+                                    todelete.delete();
+                                }
+                            });
                         }
-                    });
-                }else if(item.parent_id.startsWith("t3_")){
-                    reddit.getSubmission(item.parent_id.substring(3,item.parent_id.length)).then((su)=>{
-                        if(su.author == item.author){
-                            reddit.getComment(item.body.split("delet this ")[1]).delete();
-                        }
-                    });
-                }
+                    }
+                });
+
             }
         });
     });
-},1000*60);
+}, 1000 * 60);
 
 
 //console.log(reddit.getSubmission("6bhhfr"));
