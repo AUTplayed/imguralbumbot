@@ -48,7 +48,7 @@ function parse(poc, directs) {
         poc.direct = directs;
         //console.log("single img album");
         bscount++;
-        if(bscount%50===0){
+        if(bscount%20===0){
             fs.writeFile("viablecount",viablecount,function(){console.log("logged viable");});
             fs.writeFile("bscount",bscount,function(){console.log("logged bs");});
         }
@@ -77,7 +77,7 @@ function checkSingleRec(urls, index, callback) {
     } else {
         callapi(urls[index].url, function (body) {
             if (body.data.images_count == 1) {
-                urls[index].imgurdirect = body.data.images[0].link.replace(".gif", ".gifv");
+                urls[index].imgurdirect = body.data.images[0].link.replace(".gif", ".gifv").replace("http","https");
             }
             checkSingleRec(urls, index + 1, callback);
         });
