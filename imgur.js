@@ -86,7 +86,7 @@ function checkSingleRec(urls, index, callback) {
                 
                 // Add https protocol if http protocol was found
                 if (imageLink.indexOf("http://") === 0){
-                  imageLink = "https://" + imageLink.substring(4);
+                  imageLink = "https" + imageLink.substring(4);
                 }
                 
                 urls[index].imgurdirect = imageLink;
