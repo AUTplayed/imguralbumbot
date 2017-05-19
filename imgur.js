@@ -77,7 +77,19 @@ function checkSingleRec(urls, index, callback) {
     } else {
         callapi(urls[index].url, function (body) {
             if (body.data.images_count == 1) {
-                urls[index].imgurdirect = body.data.images[0].link.replace(".gif", ".gifv");
+                var imageLink = body.data.images[0].link;
+                
+                // Replace gif links with gif video links
+                if (imageLink.indexOf(".gif") !== false && imageLink.indexOf(".gifv") === false){
+                    imageLink = imageLink.replace(".gif", ".gifv");
+                }
+                
+                // Add https protocol if http protocol was found
+                if (imageLink.indexOf("http://") === 0){
+                  imageLink = "https://" + imageLink.substring(4);
+                }
+                
+                urls[index].imgurdirect = imageLink;
             }
             checkSingleRec(urls, index + 1, callback);
         });
