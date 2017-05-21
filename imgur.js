@@ -80,7 +80,7 @@ function checkSingleRec(urls, index, callback) {
                 var imageLink = body.data.images[0].link;
                 
                 // Replace gif links with gif video links
-                if (imageLink.indexOf(".gif") !== false && imageLink.indexOf(".gifv") === false){
+                if (imageLink.indexOf(".gif") > -1 && imageLink.indexOf(".gifv") == -1){
                     imageLink = imageLink.replace(".gif", ".gifv");
                 }
                 
