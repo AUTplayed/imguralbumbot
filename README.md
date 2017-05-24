@@ -41,3 +41,5 @@ You have been informed, have a pleasant day!
 If you want to contact the creator(me) just pm /u/AUTplayed on reddit.
 
 I sometimes check the inbox of the bot but I don't always have time for it.
+
+If, for some reason, you want to give me money here's my paypal https://paypal.me/AUTplayed
