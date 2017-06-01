@@ -75,9 +75,11 @@ imgur.on('comment', function (comment) {
 setInterval(function () {
     reddit.getUnreadMessages().then((list) => {
         list.forEach(function (item) {
-            if (item.body.startsWith("ignoreme") && item.author != undefined && ignore.indexOf(item.author.name) == -1) {
-                fs.appendFile("ignore", item.author.name+"\n", function () { });
-                ignore.push(item.author.name);
+            if (item.body.startsWith("ignoreme") && item.author != undefined) {
+                if (ignore.indexOf(item.author.name) == -1) {
+                    fs.appendFile("ignore", item.author.name+"\n", function () { });
+                    ignore.push(item.author.name);
+                }
                 item.markAsRead();
             } else if (item.body.startsWith("delet this ")) {
                 item.markAsRead();
