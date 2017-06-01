@@ -14,6 +14,6 @@ module.exports = [{
     key:["thank you","thanks"],
     reply:["no problem","you're welcome","my pleasure"]
 },{
-    key:["i changed the","i updated the"],
+    key:["changed the link","updated the link"],
     reply:["thanks","thank you"]
 }];
