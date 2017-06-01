@@ -103,7 +103,9 @@ setInterval(function () {
                     if(item.body.toLowerCase().indexOf(filter.key) != -1){
                         var msg = msgbuilder.autoreply(filter.reply);
                         item.reply(msg);
-                        item.markAsRead();
+                        var temparr = [];
+                        temparr.push(item);
+                        reddit.markMessagesAsRead(temparr);
                         return;
                     }
                 });
