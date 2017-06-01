@@ -31,7 +31,7 @@ var msgbuilder = require('./messagebuilder.js');
 imgur.on('post', function (post) {
     if (plog.indexOf(post.id) == -1 && ignore.indexOf(post.author) == -1) {
         //console.log("bs post");
-        var msg = msgbuilder(post);
+        var msg = msgbuilder.build(post);
         var failed = false;
         reddit.getSubmission(msg.location).reply(msg.text).catch(function (err) {
             failed = true;
@@ -53,7 +53,7 @@ imgur.on('post', function (post) {
 imgur.on('comment', function (comment) {
     if (clog.indexOf(comment.id) == -1 && ignore.indexOf(comment.author) == -1) {
         //console.log("bs comment");
-        var msg = msgbuilder(comment);
+        var msg = msgbuilder.build(comment);
         var failed = false;
         reddit.getComment(msg.location).reply(msg.text).catch(function (err) {
             failed = true;
@@ -98,7 +98,14 @@ setInterval(function () {
                         }
                     });
                 });
-
+            } else{
+                require("./autoreply.js").forEach(function(filter){
+                    if(item.body.toLowerCase().indexOf(filter.key) != -1){
+                        var msg = msgbuilder.autoreply(filter.reply);
+                        item.reply(msg);
+                        return;
+                    }
+                });
             }
         });
     });

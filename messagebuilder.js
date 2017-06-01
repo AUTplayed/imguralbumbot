@@ -6,7 +6,8 @@ footer += "^| ^[ignoreme](https://np.reddit.com/message/compose/?to=imguralbumbo
 
 
 
-module.exports = build;
+module.exports.build = build;
+module.exports.autoreply = autoreply;
 
 function build(poc){
     var msg = {};
@@ -16,5 +17,11 @@ function build(poc){
         msg.text+="\n\n"+d.imgurdirect;
     });
     msg.text += footer;
+    return msg;
+}
+
+function autoreply(reply){
+    var msg = "^("+reply+")";
+    msg+=footer;
     return msg;
 }
