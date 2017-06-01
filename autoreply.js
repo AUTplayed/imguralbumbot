@@ -1,4 +1,4 @@
-modules.exports = [{
+module.exports = [{
     key:"<3",
     reply:"<3"
 },{
