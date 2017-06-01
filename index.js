@@ -77,7 +77,7 @@ setInterval(function () {
         list.forEach(function (item) {
             if (item.body.startsWith("ignoreme") && item.author != undefined) {
                 if (ignore.indexOf(item.author.name) == -1) {
-                    fs.appendFile("ignore", item.author.name+"\n", function () { });
+                    fs.appendFile("ignore", item.author.name + "\n", function () { });
                     ignore.push(item.author.name);
                 }
                 item.markAsRead();
@@ -100,16 +100,19 @@ setInterval(function () {
                         }
                     });
                 });
-            } else{
-                require("./autoreply.js").forEach(function(filter){
-                    if(item.body.toLowerCase().indexOf(filter.key) != -1){
-                        var msg = msgbuilder.autoreply(filter.reply);
-                        item.reply(msg);
-                        var temparr = [];
-                        temparr.push(item);
-                        reddit.markMessagesAsRead(temparr);
-                        return;
-                    }
+            } else {
+                require("./autoreply.js").forEach(function (filters) {
+                    filters.key.forEach(function (filter) {
+                        if (item.body.toLowerCase().indexOf(filter) != -1) {
+                            var msg = filters.reply[Math.floor(Math.random()*filters.reply.length)];
+                            msg = msgbuilder.autoreply(msg);
+                            item.reply(msg);
+                            var temparr = [];
+                            temparr.push(item);
+                            reddit.markMessagesAsRead(temparr);
+                            return;
+                        }
+                    });
                 });
             }
         });

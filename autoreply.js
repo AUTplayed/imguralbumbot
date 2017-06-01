@@ -1,13 +1,13 @@
 module.exports = [{
-    key:"<3",
-    reply:"<3"
+    key:["<3","love you"],
+    reply:["<3"]
 },{
-    key:"the best",
-    reply:"https://i.imgur.com/Yzu3aOZ.gif"
+    key:["the best"],
+    reply:["https://i.imgur.com/Yzu3aOZ.gif"]
 },{
-    key:"hello",
-    reply:"hey, what's up?"
+    key:["hello","hi"],
+    reply:["hey, what's up?","yo, what's up?"]
 },{
-    key:"hi",
-    reply:"yo, what's up?"
+    key:["why"],
+    reply:["[Because](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md)"]
 }];
