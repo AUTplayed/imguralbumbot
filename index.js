@@ -83,7 +83,7 @@ setInterval(function () {
                 item.markAsRead();
             } else if (item.body.startsWith("delet this ")) {
                 item.markAsRead();
-                reddit.getComment(item.body.split("delet this ")[1]).fetch().then((todelete) => {
+                reddit.getComment(item.body.split(" ")[2]).fetch().then((todelete) => {
                     reddit.getSubmission(todelete.link_id.substring(3, todelete.link_id.length)).fetch().then((parentlink) => {
                         if (parentlink.author.name == item.author.name) {
                             todelete.delete();
