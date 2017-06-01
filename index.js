@@ -101,8 +101,8 @@ setInterval(function () {
                     });
                 });
             } else {
-                require("./autoreply.js").forEach(function (filters) {
-                    filters.key.forEach(function (filter) {
+                require("./autoreply.js").some(function (filters) {
+                    filters.key.some(function (filter) {
                         if (item.body.toLowerCase().indexOf(filter) != -1) {
                             var msg = filters.reply[Math.floor(Math.random()*filters.reply.length)];
                             msg = msgbuilder.autoreply(msg);
@@ -110,7 +110,7 @@ setInterval(function () {
                             var temparr = [];
                             temparr.push(item);
                             reddit.markMessagesAsRead(temparr);
-                            return;
+                            return true;
                         }
                     });
                 });
