@@ -104,7 +104,9 @@ setInterval(function () {
                 if (item.author.name != "AutoModerator") {
                     require("./autoreply.js").some(function (filters) {
                         filters.key.some(function (filter) {
-                            if (item.body.toLowerCase().indexOf(filter) != -1) {
+                            var index = item.body.toLowerCase().indexOf(filter);
+                            if (index != -1 && (index===0 || index+filter.length == item.body.length || item.body[index]==' ' || item.body[index+filter.length]==' ')) {
+
                                 var msg = filters.reply[Math.floor(Math.random() * filters.reply.length)];
                                 msg = msgbuilder.autoreply(msg);
                                 item.reply(msg);
