@@ -101,19 +101,21 @@ setInterval(function () {
                     });
                 });
             } else {
-                require("./autoreply.js").some(function (filters) {
-                    filters.key.some(function (filter) {
-                        if (item.body.toLowerCase().indexOf(filter) != -1) {
-                            var msg = filters.reply[Math.floor(Math.random()*filters.reply.length)];
-                            msg = msgbuilder.autoreply(msg);
-                            item.reply(msg);
-                            var temparr = [];
-                            temparr.push(item);
-                            reddit.markMessagesAsRead(temparr);
-                            return true;
-                        }
+                if (item.author.name != "AutoModerator") {
+                    require("./autoreply.js").some(function (filters) {
+                        filters.key.some(function (filter) {
+                            if (item.body.toLowerCase().indexOf(filter) != -1) {
+                                var msg = filters.reply[Math.floor(Math.random() * filters.reply.length)];
+                                msg = msgbuilder.autoreply(msg);
+                                item.reply(msg);
+                                var temparr = [];
+                                temparr.push(item);
+                                reddit.markMessagesAsRead(temparr);
+                                return true;
+                            }
+                        });
                     });
-                });
+                }
             }
         });
     });
