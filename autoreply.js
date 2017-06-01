@@ -1,5 +1,5 @@
 module.exports = [{
-    key:["<3","(love you)"],
+    key:["<3","love you"],
     reply:["<3"]
 },{
     key:["the best"],
