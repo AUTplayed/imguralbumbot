@@ -9,7 +9,7 @@ module.exports = [{
     reply:["hey, what's up?","yo, what's up?"]
 },{
     key:["why"],
-    reply:["[Because](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md)"]
+    reply:["Please read the link called 'why' in my comment"]
 },{
     key:["thank you","thanks"],
     reply:["no problem","you're welcome","my pleasure"]
