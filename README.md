@@ -26,7 +26,7 @@ If you want mobile reddit users to have a jolly time looking at your images/gifs
 
 ![Instruction gif](http://imgur.com/l3I8aev.gif)
 
-(Eighter one works)
+(Either one works)
 
 **Instructions Mobile App**
 
