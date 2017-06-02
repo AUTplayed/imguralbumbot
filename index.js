@@ -109,7 +109,7 @@ setInterval(function () {
                             var index = item.body.toLowerCase().indexOf(filter);
                             if (index != -1 &&
                                 ((index === 0 || item.body[index - 1] == ' ' || punct.indexOf(item.body[index - 1]) > -1) &&
-                                    (index + filter.length == item.body.length || item.body[index + filter.length] == ' ' || punct.indexOf(item.body[index + filter.length])))) {
+                                    (index + filter.length == item.body.length || item.body[index + filter.length] == ' ' || punct.indexOf(item.body[index + filter.length]) > -1))) {
 
                                 var msg = filters.reply[Math.floor(Math.random() * filters.reply.length)];
                                 msg = msgbuilder.autoreply(msg);
@@ -129,7 +129,3 @@ setInterval(function () {
     });
 }, 1000 * 60);
 
-
-//console.log(reddit.getSubmission("6bhhfr"));
-
-//reddit.getComment("dhml6ru").reply("testing2\n\n3").then(console.log).error((err)=>console.log(err));
