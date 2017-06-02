@@ -18,5 +18,5 @@ module.exports = [{
     reply:["thanks","(thank you)"]
 },{
     key:["beep","boop"],
-    reply:["beep","boop","beep boop"]
+    reply:["beep","boop","(beep boop)"]
 }];
