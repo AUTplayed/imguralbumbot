@@ -21,7 +21,7 @@ function build(poc){
 }
 
 function autoreply(reply){
-    var msg = "^("+reply+")";
+    var msg = "^"+reply+"";
     msg+=footer;
     return msg;
 }
