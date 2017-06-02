@@ -121,7 +121,7 @@ setInterval(function () {
                         });
                     });
                 }else{
-                    if(item.body.indexOf("gold")!=-1){
+                    if(item.body.indexOf("gold")==-1){
                         reddit.markMessagesAsRead([item]);
                     }
                 }
