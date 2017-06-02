@@ -5,7 +5,7 @@ var fs = require("fs");
 
 var dfooter = "^| ^[deletthis](https://np.reddit.com/message/compose/?to=imguralbumbot&subject=delet%20this&message=delet%20this%20";
 var ends = ") ";
-const punct = [".",",","!","?"];
+const punct = [".", ",", "!", "?", "(", ")", "[", "]"];
 var env = process.env;
 var clog = [], plog = [], ignore = [];
 if (fs.existsSync("ignore"))
@@ -107,10 +107,9 @@ setInterval(function () {
                         filters.key.some(function (filter) {
                             //Check if a keyword is in a comment, but has eighter a space, punctuation mark or nothing in front and behind
                             var index = item.body.toLowerCase().indexOf(filter);
-                            if (index != -1 && 
-                            (index===0 || index+filter.length == item.body.length || 
-                            item.body[index-1]==' ' || item.body[index+filter.length]==' ' ||
-                            punct.indexOf(item.body[index-1])>-1 || punct.indexOf(item.body[index+filter.length]))) {
+                            if (index != -1 &&
+                                ((index === 0 || item.body[index - 1] == ' ' || punct.indexOf(item.body[index - 1]) > -1) &&
+                                    (index + filter.length == item.body.length || item.body[index + filter.length] == ' ' || punct.indexOf(item.body[index + filter.length])))) {
 
                                 var msg = filters.reply[Math.floor(Math.random() * filters.reply.length)];
                                 msg = msgbuilder.autoreply(msg);
@@ -120,8 +119,8 @@ setInterval(function () {
                             }
                         });
                     });
-                }else{
-                    if(item.body.indexOf("gold")==-1){
+                } else {
+                    if (item.body.indexOf("gold") == -1) {
                         reddit.markMessagesAsRead([item]);
                     }
                 }
