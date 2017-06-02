@@ -104,7 +104,7 @@ setInterval(function () {
             } else {
                 if (item.author && item.author.name != "AutoModerator") {
                     require("./autoreply.js").some(function (filters) {
-                        filters.key.some(function (filter) {
+                        return filters.key.some(function (filter) {
                             //Check if a keyword is in a comment, but has eighter a space, punctuation mark or nothing in front and behind
                             var index = item.body.toLowerCase().indexOf(filter);
                             if (index != -1 &&
