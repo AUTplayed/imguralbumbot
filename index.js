@@ -115,13 +115,15 @@ setInterval(function () {
                                 var msg = filters.reply[Math.floor(Math.random() * filters.reply.length)];
                                 msg = msgbuilder.autoreply(msg);
                                 item.reply(msg);
-                                var temparr = [];
-                                temparr.push(item);
-                                reddit.markMessagesAsRead(temparr);
+                                reddit.markMessagesAsRead([item]);
                                 return true;
                             }
                         });
                     });
+                }else{
+                    if(item.body.indexOf("gold")!=-1){
+                        reddit.markMessagesAsRead([item]);
+                    }
                 }
             }
         });
