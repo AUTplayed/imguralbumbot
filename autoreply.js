@@ -11,10 +11,10 @@ module.exports = [{
     key:["why"],
     reply:["[Because](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md)"]
 },{
-    key:["thank you","thanks"],
+    key:["thank you","thanks","thx"],
     reply:["(no problem)","(you're welcome)","(my pleasure)"]
 },{
-    key:["changed the link","updated the link","good bot"],
+    key:["changed the link","updated the link","fixed","good bot"],
     reply:["thanks","(thank you)"]
 },{
     key:["beep","boop"],
