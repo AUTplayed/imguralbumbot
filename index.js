@@ -3,7 +3,7 @@ require("dotenv").config();
 var imgur = require('./imgur.js');
 var fs = require("fs");
 
-var dfooter = "^| ^[deletthis](https://np.reddit.com/message/compose/?to=imguralbumbot&subject=delet%20this&message=delet%20this%20";
+var dfooter = "^| ^[delete this](https://np.reddit.com/message/compose/?to=imguralbumbot&subject=delet%20this&message=delet%20this%20";
 var ends = ") ";
 const punct = [".", ",", "!", "?", "(", ")", "[", "]"];
 var env = process.env;
