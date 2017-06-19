@@ -3,7 +3,7 @@ module.exports = [{
     reply:["<3"]
 },{
     key:["the best"],
-    reply:["https://i.imgur.com/Yzu3aOZ.gif"]
+    reply:["https://i.imgur.com/Yzu3aOZ.gifv"]
 },{
     key:["hello","hi","hey"],
     reply:["(hey, what's up?)","(yo, what's up?)"]
@@ -11,10 +11,10 @@ module.exports = [{
     key:["why"],
     reply:["[Because](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md)"]
 },{
-    key:["thank you","thanks"],
+    key:["thank you","thanks","thx"],
     reply:["(no problem)","(you're welcome)","(my pleasure)"]
 },{
-    key:["changed the link","updated the link"],
+    key:["changed the link","updated the link","fixed","good bot"],
     reply:["thanks","(thank you)"]
 },{
     key:["beep","boop"],
