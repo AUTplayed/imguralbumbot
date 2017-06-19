@@ -102,7 +102,7 @@ setInterval(function () {
                     });
                 });
             } else {
-                if (item.author && item.author.name != "AutoModerator") {
+                if (item.author && item.author.name != "AutoModerator" && item.author.name != "reddit") {
                     require("./autoreply.js").some(function (filters) {
                         filters.key.some(function (filter) {
                             //Check if a keyword is in a comment, but has eighter a space, punctuation mark or nothing in front and behind
