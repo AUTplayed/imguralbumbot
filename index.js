@@ -37,7 +37,7 @@ imgur.on('post', function (post) {
                 var redditpost = reddit.getSubmission(post.id);
                 redditpost.reply(msgbuilder.modremove(post));
                 redditpost.remove().then(()=>{
-                    plog.push(msg.location);
+                    plog.push(post.id);
                         fs.appendFile("plog", post.id + "\n", function () { });
                 });
             } else {
