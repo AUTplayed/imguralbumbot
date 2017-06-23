@@ -30,22 +30,36 @@ imgur.on('error', function (err) {
 
 var msgbuilder = require('./messagebuilder.js');
 imgur.on('post', function (post) {
-    if (plog.indexOf(post.id) == -1 && ignore.indexOf(post.author) == -1) {
+    if (plog.indexOf(post.id) == -1) {
         //console.log("bs post");
-        var msg = msgbuilder.build(post);
-        var failed = false;
-        reddit.getSubmission(msg.location).reply(msg.text).catch(function (err) {
-            failed = true;
-            if (!err.message.startsWith("RATELIMIT") && !err.message.startsWith("Forbidden")) {
-                //console.log(err);
-            }
-        }).then((repl) => {
-            if (!failed) {
-                plog.push(msg.location);
-                fs.appendFile("plog", msg.location + "\n", function () { });
-                repl.edit(repl.body + dfooter + repl.id + ends);
+        reddit.getSubreddit(post.subreddit).fetch().then((s) => {
+            if (s.user_is_moderator) {
+                var redditpost = reddit.getSubmission(post.id);
+                redditpost.reply(msgbuilder.modremove(post));
+                redditpost.remove().then(()=>{
+                    plog.push(msg.location);
+                        fs.appendFile("plog", post.id + "\n", function () { });
+                });
+            } else {
+                if(ignore.indexOf(post.author) == -1){
+                var msg = msgbuilder.build(post);
+                var failed = false;
+                reddit.getSubmission(msg.location).reply(msg.text).catch(function (err) {
+                    failed = true;
+                    if (!err.message.startsWith("RATELIMIT") && !err.message.startsWith("Forbidden")) {
+                        //console.log(err);
+                    }
+                }).then((repl) => {
+                    if (!failed) {
+                        plog.push(msg.location);
+                        fs.appendFile("plog", msg.location + "\n", function () { });
+                        repl.edit(repl.body + dfooter + repl.id + ends);
+                    }
+                });
+                }
             }
         });
+
     } else {
         console.log("duplicate post");
     }
