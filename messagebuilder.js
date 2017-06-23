@@ -30,7 +30,7 @@ function autoreply(reply){
 
 function modremove(post){
     var msg =  "Your submission was removed because you linked an album with only one image instead of the ";
-    msg+= "[direct link]("+post.direct[0]+") \n\n";
+    msg+= "[direct link]("+post.direct[0].imgurdirect+") \n\n";
     msg+="Learn how to get a direct link [here](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md#what-can-i-do-against-it)";
     return msg;
 }
