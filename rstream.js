@@ -14,9 +14,13 @@ pstream.on('new',function(posts){
     /*pcount+=posts.length;
     console.log(pcount);*/
     posts.forEach(function(post){
-        if(post.data.url && post.data.url.includes("://imgur.com/a/"))
+        if(post.data.url)
         {
-            emitter.emit('post',post.data);
+            if(post.data.url.includes("://imgur.com/a/")){
+                emitter.emit('post',post.data);
+            }else if(post.data.url.includes("://imgur.com/gallery/")){
+                emitter.emit('postg',post.data);
+            }
         }
     });
 });
@@ -31,6 +35,8 @@ cstream.on('new',function(comments){
     comments.forEach(function(comment){
         if(comment.data.body_html.includes("://imgur.com/a/")){
             emitter.emit('comment',comment.data);
+        }else if(comment.data.body_html.includes("://imgur.com/gallery/")){
+            emitter.emit('commentg',comment.data);
         }
     });
 });

@@ -6,6 +6,7 @@ const EventEmitter = require('events');
 
 const regex = /href=".*imgur.com.*"/g;
 const baseurl = "https://api.imgur.com/3/album/";
+const baseurlGallery = "https://api.imgur.com/3/gallery/";
 const apikey = process.env.imgurkey;
 const emitter = new EventEmitter();
 var viablecount = 0,bscount = 0;
@@ -17,15 +18,22 @@ if(fs.existsSync("bscount"))
     bscount = parseInt(fs.readFileSync("bscount","utf-8"));
 
 rstream.on('post', function (post) {
-    //console.log("post", post.title);
+    incpost(post,"/a/");
+});
+
+rstream.on('postg',function(post){
+    incpost(post,"/gallery/");
+});
+
+function incpost(post,splitstring){
     var arr = [];
     arr.push({ url: post.url });
-    checkAlbum(arr, function (directs) {
+    checkAlbum(arr,splitstring, function (directs) {
         if (parse(post, directs)) {
             emitter.emit('post', post);
         }
     });
-});
+}
 
 rstream.on('comment', function (comment) {
     //console.log("comment", comment.body);
@@ -41,6 +49,10 @@ rstream.on('comment', function (comment) {
             }
         });
     }
+});
+
+rstream.on('commentg',function(comment){
+
 });
 
 function parse(poc, directs) {
@@ -64,18 +76,18 @@ rstream.on('error', function (err) {
     emitter.emit('error', err);
 });
 
-function checkAlbum(urls, callback) {
+function checkAlbum(urls,splitstring,callback) {
     //console.log(urls);
-    checkSingleRec(urls, 0, callback);
+    checkSingleRec(urls,splitstring, 0, callback);
 }
 
-function checkSingleRec(urls, index, callback) {
+function checkSingleRec(urls,splitstring,index, callback) {
     if (index >= urls.length) {
         callback(urls.filter(function (e) {
             return e.imgurdirect !== undefined;
         }));
     } else {
-        callapi(urls[index].url, function (body) {
+        callapi(urls[index].url,splitstring, function (body) {
             if (body.data.images_count == 1) {
                 var imageLink = body.data.images[0].link;
                 
@@ -91,13 +103,13 @@ function checkSingleRec(urls, index, callback) {
                 
                 urls[index].imgurdirect = imageLink;
             }
-            checkSingleRec(urls, index + 1, callback);
+            checkSingleRec(urls,splitstring, index + 1, callback);
         });
     }
 }
 
-function callapi(url, callback) {
-    var requrl = baseurl + url.split("/a/")[1];
+function callapi(url,splitstring, callback) {
+    var requrl = baseurl + url.split(splitstring)[1];
     request(requrl, {
         headers: {
             "authorization": "Client-ID " + apikey
