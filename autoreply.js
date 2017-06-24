@@ -5,14 +5,14 @@ module.exports = [{
     key:["the best"],
     reply:["https://i.imgur.com/Yzu3aOZ.gifv"]
 },{
-    key:["hello","hi","hey"],
-    reply:["(hey, what's up?)","(yo, what's up?)"]
+    key:["thank you","thanks","thx"],
+    reply:["(no problem)","(you're welcome)","(my pleasure)"]
 },{
     key:["why"],
     reply:["[Because](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md)"]
 },{
-    key:["thank you","thanks","thx"],
-    reply:["(no problem)","(you're welcome)","(my pleasure)"]
+    key:["hello","hi","hey"],
+    reply:["(hey, what's up?)","(yo, what's up?)"."(Hello Dave)"]
 },{
     key:["changed the link","updated the link","fixed","good bot"],
     reply:["thanks","(thank you)"]
