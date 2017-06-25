@@ -12,7 +12,7 @@ module.exports = [{
     reply:["[Because](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md)"]
 },{
     key:["hello","hi","hey"],
-    reply:["(hey, what's up?)","(yo, what's up?)"."(Hello Dave)"]
+    reply:["(hey, what's up?)","(yo, what's up?)","(Hello Dave)"]
 },{
     key:["changed the link","updated the link","fixed","good bot"],
     reply:["thanks","(thank you)"]
