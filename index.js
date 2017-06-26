@@ -106,7 +106,7 @@ setInterval(function () {
                         } else {
                             if (todelete.parent_id.startsWith("t1_")) {
                                 reddit.getComment(todelete.parent_id.substring(3, todelete.parent_id.length)).fetch().then((co) => {
-                                    if (co.author.name == item.author.name) {
+                                    if (co.author.name == item.author.name || co.author.name == "[deleted]") {
                                         todelete.delete();
                                         console.log("deleted " + co.id);
                                     }
