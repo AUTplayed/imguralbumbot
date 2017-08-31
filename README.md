@@ -28,7 +28,8 @@ If you want mobile reddit users to have a jolly time looking at your images/gifs
 
 **Instructions Desktop**
 
-![Instruction gif](http://imgur.com/l3I8aev.gif)
+Right click -> copy image address
+![Instruction gif](https://i.imgur.com/V7HFTTx.gif)
 
 (Either one works)
 
