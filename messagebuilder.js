@@ -16,7 +16,7 @@ function build(poc){
     msg.text = header;
     msg.location = poc.id;
     poc.direct.forEach(function(d){
-        msg.text+="\n\n"+d.imgurdirect;
+        msg.text+="\n\n**"+d.imgurdirect+"**";
     });
     msg.text += footer;
     return msg;
