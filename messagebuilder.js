@@ -1,11 +1,9 @@
 const header = "^(Hi, I'm a bot for linking direct images of albums with only 1 image)";
-var footer = "\n\n^^[Source](https://github.com/AUTplayed/imguralbumbot) ";
-footer += "^^| ^^[Why?](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md) ";
-footer += "^^| ^^[Creator](https://np.reddit.com/user/AUTplayed/) ";
-//footer += "^^| ^^[state_of_imgur](https://np.reddit.com/r/u_imguralbumbot/comments/6i1huv/imgur_has_gone_to_shit) ";
-footer += "^^| ^^[ignoreme](https://np.reddit.com/message/compose/?to=imguralbumbot&subject=ignoreme&message=ignoreme) ";
-
-
+var footer = "\n\n^^[Source](https://github.com/AUTplayed/imguralbumbot)&#32;";
+footer += "^^|&#32;^^[Why?](https://github.com/AUTplayed/imguralbumbot/blob/master/README.md)&#32;";
+footer += "^^|&#32;^^[Creator](https://np.reddit.com/user/AUTplayed/)&#32;";
+//footer += "^^|&#32;^^[state_of_imgur](https://np.reddit.com/r/u_imguralbumbot/comments/6i1huv/imgur_has_gone_to_shit)&#32;";
+footer += "^^|&#32;^^[ignoreme](https://np.reddit.com/message/compose/?to=imguralbumbot&subject=ignoreme&message=ignoreme)&#32;";
 
 module.exports.build = build;
 module.exports.autoreply = autoreply;
