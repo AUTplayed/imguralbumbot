@@ -51,14 +51,14 @@ If, for some reason, you want to give me money here's my paypal https://paypal.m
 
 ## Some stats (since 2017/05/18)
 
-Detected 73,3k+ single album images
+Detected 741k+ single album images
 
-Posted on 35,1k+ comment album links
+Posted on 208k+ comment album links
 
-Posted on 21k+ post album links
+Posted on 160k+ post album links
 
-Ignored by 914+ users
+Ignored by 3740+ users
 
-Banned in 160+ subreddits
+Banned in 160+++ subreddits (I can't measure this anymore)
 
-*Stats updated on 2017/06/11*
+*Stats updated on 2017/12/30*
