@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^4.0.0",
+    "mongodb": "^3.0.1",
     "reddit-stream": "^1.2.0",
+    "redis": "^2.8.0",
     "request": "^2.81.0",
     "snoowrap": "^1.14.0"
   }

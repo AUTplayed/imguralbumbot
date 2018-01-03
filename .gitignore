@@ -70,3 +70,4 @@ error*.html
 *count
 ignore
 .vscode/
+package-lock.json

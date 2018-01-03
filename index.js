@@ -1,19 +1,12 @@
 var Snoo = require("snoowrap");
 require("dotenv").config();
 var imgur = require('./imgur.js');
-var fs = require("fs");
 
 var dfooter = "^^| ^^[deletthis](https://np.reddit.com/message/compose/?to=imguralbumbot&subject=delet%20this&message=delet%20this%20";
 var ends = ") ";
-const punct = [".", ",", "!", "?", "(", ")", "[", "]","\n","/"," "];
+const punct = [".", ",", "!", "?", "(", ")", "[", "]", "\n", "/", " ", "^"];
 var env = process.env;
-var clog = [], plog = [], ignore = [];
-if (fs.existsSync("ignore"))
-    ignore = [].concat(fs.readFileSync("ignore", "utf-8").split("\n"));
-if (fs.existsSync("clog"))
-    clog = [].concat(fs.readFileSync("clog", "utf-8").split("\n"));
-if (fs.existsSync("plog"))
-    plog = [].concat(fs.readFileSync("plog", "utf-8").split("\n"));
+var db = require("./db.js");
 
 var reddit = new Snoo({
     userAgent: env.useragent,
@@ -23,39 +16,36 @@ var reddit = new Snoo({
     password: env.redditpw
 });
 
-
 imgur.on('error', function (err) {
     console.log(err);
 });
 
 var msgbuilder = require('./messagebuilder.js');
 imgur.on('post', function (post) {
-    if (plog.indexOf(post.id) == -1) {
+    if (!db.exists("p", post.id)) {
         //console.log("bs post");
         reddit.getSubreddit(post.subreddit).fetch().then((s) => {
             if (s.user_is_moderator) {
                 var redditpost = reddit.getSubmission(post.id);
                 redditpost.reply(msgbuilder.modremove(post));
-                redditpost.remove().then(()=>{
-                    plog.push(post.id);
-                        fs.appendFile("plog", post.id + "\n", function () { });
+                redditpost.remove().then(() => {
+                    db.log("p", post.id);
                 });
             } else {
-                if(ignore.indexOf(post.author) == -1){
-                var msg = msgbuilder.build(post);
-                var failed = false;
-                reddit.getSubmission(msg.location).reply(msg.text).catch(function (err) {
-                    failed = true;
-                    if (!err.message.startsWith("RATELIMIT") && !err.message.startsWith("Forbidden")) {
-                        //console.log(err);
-                    }
-                }).then((repl) => {
-                    if (!failed) {
-                        plog.push(msg.location);
-                        fs.appendFile("plog", msg.location + "\n", function () { });
-                        repl.edit(repl.body + dfooter + repl.id + ends);
-                    }
-                });
+                if (!db.isIgnored(post.author)) {
+                    var msg = msgbuilder.build(post);
+                    var failed = false;
+                    reddit.getSubmission(msg.location).reply(msg.text).catch(function (err) {
+                        failed = true;
+                        if (!err.message.startsWith("RATELIMIT") && !err.message.startsWith("Forbidden")) {
+                            //console.log(err);
+                        }
+                    }).then((repl) => {
+                        if (!failed) {
+                            db.log("p", msg.location);
+                            repl.edit(repl.body + dfooter + repl.id + ends);
+                        }
+                    });
                 }
             }
         });
@@ -66,7 +56,7 @@ imgur.on('post', function (post) {
 });
 
 imgur.on('comment', function (comment) {
-    if (clog.indexOf(comment.id) == -1 && ignore.indexOf(comment.author) == -1) {
+    if (!db.exists("c", comment.id) && !db.isIgnored(comment.author)) {
         //console.log("bs comment");
         var msg = msgbuilder.build(comment);
         var failed = false;
@@ -77,8 +67,7 @@ imgur.on('comment', function (comment) {
             }
         }).then((repl) => {
             if (!failed) {
-                clog.push(msg.location);
-                fs.appendFile("clog", msg.location + "\n", function () { });
+                db.log("c", msg.location);
                 repl.edit(repl.body + dfooter + repl.id + ends);
             }
         });
@@ -91,9 +80,8 @@ setInterval(function () {
     reddit.getUnreadMessages().then((list) => {
         list.forEach(function (item) {
             if (item.body.startsWith("ignoreme") && item.author != undefined) {
-                if (ignore.indexOf(item.author.name) == -1) {
-                    fs.appendFile("ignore", item.author.name + "\n", function () { });
-                    ignore.push(item.author.name);
+                if (!db.isIgnored(item.author.name)) {
+                    db.ignore(item.author.name);
                 }
                 item.markAsRead();
             } else if (item.body.startsWith("delet this ")) {
@@ -116,7 +104,7 @@ setInterval(function () {
                     });
                 });
             } else {
-                if (item.author && item.author.name != "AutoModerator" && item.author.name != "reddit" && ignore.indexOf(item.author.name) == -1) {
+                if (item.author && item.author.name != "AutoModerator" && item.author.name != "reddit" && !db.isIgnored(item.author.name)) {
                     require("./autoreply.js").some(function (filters) {
                         return filters.key.some(function (filter) {
                             //Check if a keyword is in a comment, but has eighter a space, punctuation mark or nothing in front and behind

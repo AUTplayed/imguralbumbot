@@ -1,20 +1,22 @@
 var rstream = require('./rstream.js');
 var request = require('request');
-var fs = require("fs");
 require("dotenv").config();
 const EventEmitter = require('events');
 
+var db = require("./db.js");
 const regex = /href=".*imgur.com.*"/g;
 const baseurl = "https://api.imgur.com/3/album/";
 const apikey = process.env.imgurkey;
 const emitter = new EventEmitter();
-var viablecount = 0,bscount = 0;
+var viablecount = 0, bscount = 0;
 module.exports = emitter;
 
-if(fs.existsSync("viablecount"))
-    viablecount = parseInt(fs.readFileSync("viablecount","utf-8"));
-if(fs.existsSync("bscount"))
-    bscount = parseInt(fs.readFileSync("bscount","utf-8"));
+db.get("viable", (count) => {
+    viablecount = count;
+});
+db.get("bs", (count) => {
+    bscount = count;
+});
 
 rstream.on('post', function (post) {
     //console.log("post", post.title);
@@ -48,9 +50,9 @@ function parse(poc, directs) {
         poc.direct = directs;
         //console.log("single img album");
         bscount++;
-        if(bscount%20===0){
-            fs.writeFile("viablecount",viablecount,function(){console.log("logged viable");});
-            fs.writeFile("bscount",bscount,function(){console.log("logged bs");});
+        if (bscount % 25 === 0) {
+            db.set("bs", bscount);
+            db.set("viable", viablecount);
         }
         return true;
     } else {
@@ -78,17 +80,17 @@ function checkSingleRec(urls, index, callback) {
         callapi(urls[index].url, function (body) {
             if (body.data.images_count == 1) {
                 var imageLink = body.data.images[0].link;
-                
+
                 // Replace gif links with gif video links
-                if (imageLink.indexOf(".gif") > -1 && imageLink.indexOf(".gifv") == -1){
+                if (imageLink.indexOf(".gif") > -1 && imageLink.indexOf(".gifv") == -1) {
                     imageLink = imageLink.replace(".gif", ".gifv");
                 }
-                
+
                 // Add https protocol if http protocol was found
-                if (imageLink.indexOf("http://") === 0){
-                  imageLink = "https" + imageLink.substring(4);
+                if (imageLink.indexOf("http://") === 0) {
+                    imageLink = "https" + imageLink.substring(4);
                 }
-                
+
                 urls[index].imgurdirect = imageLink;
             }
             checkSingleRec(urls, index + 1, callback);
