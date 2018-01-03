@@ -10,7 +10,7 @@ require("dotenv").config();
 
 var redis = require("redis").createClient(process.env.REDIS_URL);
 var mongo = require("mongodb").MongoClient;
-const mongourl = process.env.MONGO_URL;
+const mongourl = process.env.MONGODB_URL;
 
 var ignorelist = [];
 var loglist = [];
