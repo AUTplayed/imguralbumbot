@@ -28,10 +28,10 @@ function isIgnored(name) {
 	return ~ignorelist.indexOf(name);
 }
 
-function ignore(name, cb) {
+function ignore(name) {
 	ignorelist.push(name);
 	mongodb((db, close) => {
-		db.collection("ignore").insertOne({ name: name }, (err) => { if (err) { console.log(err); } close(); cb(); });
+		db.collection("ignore").insertOne({ name: name }, (err) => { if (err) { console.log(err); } close(); });
 	});
 }
 
