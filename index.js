@@ -2,7 +2,7 @@ var Snoo = require("snoowrap");
 require("dotenv").config();
 var imgur = require('./imgur.js');
 
-var dfooter = "^^| ^^[deletthis](https://np.reddit.com/message/compose/?to=imguralbumbot&subject=delet%20this&message=delet%20this%20";
+var dfooter = " ^^| ^^[deletthis](https://np.reddit.com/message/compose/?to=imguralbumbot&subject=delet%20this&message=delet%20this%20";
 var ends = ") ";
 const punct = [".", ",", "!", "?", "(", ")", "[", "]", "\n", "/", " ", "^"];
 var env = process.env;
