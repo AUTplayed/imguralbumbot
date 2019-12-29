@@ -1,3 +1,5 @@
+Bot has been banned site-wide due to too many reports/subreddit bans. I will not create a new account as that is against Reddit TOS. It had a good run of 2 years. o7
+
 # Why?
 
 So you came here to have your question answered...
